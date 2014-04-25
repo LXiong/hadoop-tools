@@ -18,11 +18,11 @@
 		mapred.job.tracker=${hd.jt}
 	</configuration>
 
-	<hive-server port="${hive.port}" auto-startup="true"
-	             properties-location="hive-server.properties"/>		     
-	
+<!-- 	<hive-server port="${hive.port}" auto-startup="true"
+	             properties-location="hive-server.properties"/>		    
+--> 	
 	<hive-client-factory host="${hive.host}" port="${hive.port}"/>	
-	
+ 	
 	<hive-template id="hiveTemplate"/>		
  
 
