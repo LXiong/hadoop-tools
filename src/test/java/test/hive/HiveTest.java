@@ -3,7 +3,9 @@ package test.hive;
 /**
  * test hive template
  */
+import java.sql.ResultSet;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,6 +39,11 @@ public class HiveTest {
 	@Qualifier(value = "baseHiveJdbc")
 	private HiveRepository<BaseObj> repositoryJdbc;
 
+	private static final String hql = "CREATE EXTERNAL TABLE hbase_t3(key string,v1 map<string,string>) "
+			+ "STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'"
+			+ "WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,TestUser:\")"
+			+ "TBLPROPERTIES(\"hbase.table.name\" = \"test1\")";
+
 	@Before
 	public final void setUp() {
 		List<String> tables = template.query("show tables;");
@@ -66,5 +73,21 @@ public class HiveTest {
 		long r = repositoryJdbc.count(t);
 		log.info("Count is = " + r);
 		Assert.assertTrue(r > 0);
+	}
+
+	@Test
+	public final void testExecute() {
+		int r = repository.executeHql(hql);
+		log.info("r is = " + r);
+		Assert.assertTrue(r > 0);
+	}
+
+	@Test
+	public final void testQueryByJdbc() {
+		String sql = "select * from hbase_t3";
+		List<Map<String, Object>> r = repository.querySql(sql);
+		// List<Map<String, Object>> r = repositoryJdbc.querySql(sql);
+		log.info("=============>r is = " + r.toString());
+		Assert.assertNotNull(r);
 	}
 }

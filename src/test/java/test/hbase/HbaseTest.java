@@ -60,10 +60,10 @@ public class HbaseTest {
 
 	@After
 	public final void clear() {
-		if (hbaseRepository.existFamily(t) > -2) {
-			int r2 = hbaseRepository.dropTable(t.getTableName());
-			Assert.assertTrue(r2 > 0);
-		}
+//		if (hbaseRepository.existFamily(t) > -2) {
+//			int r2 = hbaseRepository.dropTable(t.getTableName());
+//			Assert.assertTrue(r2 > 0);
+//		}
 	}
 
 	@Test
