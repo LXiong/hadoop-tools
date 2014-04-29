@@ -1,6 +1,5 @@
 package com.reed.hadoop.hive.base;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,19 @@ public interface HiveRepository<T extends BaseObj> {
 	 */
 	Long count(T t);
 
+	/**
+	 * DDL or DML hql or sql to execute
+	 * 
+	 * @param hql
+	 * @return
+	 */
 	int executeHql(String hql);
 
+	/**
+	 * Query by sql,return resultSet
+	 * 
+	 * @param sql
+	 * @return
+	 */
 	List<Map<String, Object>> querySql(String sql);
 }

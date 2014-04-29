@@ -10,6 +10,7 @@ import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveOperations;
+import org.springframework.data.hadoop.hive.HiveTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.reed.hadoop.domain.base.BaseObj;
@@ -20,6 +21,8 @@ public class HiveTemplateRepository implements HiveRepository<BaseObj> {
 
 	@Autowired
 	private HiveOperations hiveOperations;
+	@Autowired
+	private HiveTemplate hiveTemplate;
 
 	@Override
 	public Long count(BaseObj t) {
@@ -64,4 +67,5 @@ public class HiveTemplateRepository implements HiveRepository<BaseObj> {
 		}
 		return r;
 	}
+
 }

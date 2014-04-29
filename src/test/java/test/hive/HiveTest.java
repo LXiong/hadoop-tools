@@ -3,7 +3,6 @@ package test.hive;
 /**
  * test hive template
  */
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -78,16 +77,19 @@ public class HiveTest {
 	@Test
 	public final void testExecute() {
 		int r = repository.executeHql(hql);
+		//int r = repositoryJdbc.executeHql(sql);
 		log.info("r is = " + r);
 		Assert.assertTrue(r > 0);
 	}
 
 	@Test
 	public final void testQueryByJdbc() {
-		String sql = "select * from hbase_t3";
+		//String sql = "select * from hbase_t4 where key='u1_1398666932851'";
+		String sql = "select key,v2 from hbase_t4";
 		List<Map<String, Object>> r = repository.querySql(sql);
-		// List<Map<String, Object>> r = repositoryJdbc.querySql(sql);
+		//List<Map<String, Object>> r = repositoryJdbc.querySql(sql);
 		log.info("=============>r is = " + r.toString());
+		//int r = repositoryJdbc.executeHql(sql);
 		Assert.assertNotNull(r);
 	}
 }

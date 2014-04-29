@@ -1,7 +1,7 @@
 package com.reed.hadoop.hive.base.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import com.reed.hadoop.domain.base.BaseObj;
@@ -30,6 +31,9 @@ public class HiveJdbcRepository implements HiveRepository<BaseObj>,
 		ResourceLoaderAware {
 	@Autowired
 	private JdbcOperations jdbcOperations;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	private ResourceLoader resourceLoader;
 
 	@Override
@@ -39,14 +43,17 @@ public class HiveJdbcRepository implements HiveRepository<BaseObj>,
 
 	@Override
 	public Long count(BaseObj t) {
-		return jdbcOperations.queryForLong("select count(*) from "
-				+ t.getTableName());
+		return jdbcOperations.queryForObject(
+				"select count(*) from " + t.getTableName(), Long.class);
 	}
 
 	@Override
-	public int executeHql(String hql) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int executeHql(final String hql) {
+		int r = 0;
+		//jdbcTemplate.execute(hql);
+		jdbcOperations.execute(hql);
+		r = 1;
+		return r;
 	}
 
 	@Override
