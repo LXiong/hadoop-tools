@@ -87,7 +87,8 @@ public class HbaseTest {
 
 	@Test
 	public final void testfind() {
-		List<TestUser> r = hbaseRepository.findTByAll(t, null, null);
+		//List<TestUser> r = hbaseRepository.findTByAll(t, null, null);
+		List<TestUser> r = hbaseRepository.findTByAll(t, null,null);
 		log.info("=============>result is = " + r.toString());
 		Assert.assertTrue(r != null);
 	}

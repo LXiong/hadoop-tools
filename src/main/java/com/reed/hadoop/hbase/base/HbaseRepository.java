@@ -59,7 +59,16 @@ public interface HbaseRepository<T extends HbaseObj> {
 
 	Result findByKey(HbaseObj t);
 
-	List<Result> findAll(HbaseObj t, Integer start, Integer end);
+	/**
+	 * 根据HbaseObj.tableName,HBaseObj.family指定值，查询rowKey从startRow（包括）到endRow（不包括）
+	 * 的原始记录
+	 * 
+	 * @param t
+	 * @param startRow
+	 * @param endRow
+	 * @return
+	 */
+	List<Result> findAll(HbaseObj t, String startRow, String endRow);
 
 	int deleteByColumn(HbaseObj t, String column);
 
@@ -67,6 +76,14 @@ public interface HbaseRepository<T extends HbaseObj> {
 
 	T findTByKey(T t);
 
-	List<T> findTByAll(T t, Integer start, Integer end);
+	/**
+	 * 根据T.tableName,T.family指定值，查询rowKey从startRow（包括）到endRow（不包括） 的记录并转换为业务对象T
+	 * 
+	 * @param t
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	List<T> findTByAll(T t, String start, String end);
 
 }

@@ -19,6 +19,7 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -220,9 +221,7 @@ public abstract class HbaseRepositoryImpl {
 		return r;
 	}
 
-	// @Override
-	public List<Result> findAll(final HbaseObj t, final Integer start,
-			final Integer end) {
+	public List<Result> findAll(final HbaseObj t) {
 		List<Result> r = null;
 		if (t != null && StringUtils.isNotBlank(t.getTableName())
 				&& StringUtils.isNotBlank(t.getFamily())) {
@@ -231,9 +230,32 @@ public abstract class HbaseRepositoryImpl {
 						public Result mapRow(Result result, int rowNum)
 								throws Exception {
 							return result;
-							// String s = new String(result.value());
-							// return (HbaseObj) JsonUtil.json2Object(s,
-							// HbaseObj.class);
+						}
+					});
+		}
+		return r;
+	}
+
+	public List<Result> findAll(final HbaseObj t, final String startRow,
+			final String endRow) {
+		List<Result> r = null;
+		if (t != null && StringUtils.isNotBlank(t.getTableName())) {
+			Scan scan = new Scan();
+			if (StringUtils.isNotBlank(t.getFamily())) {
+				scan.addFamily(t.getFamily().getBytes());
+			}
+			if (StringUtils.isNotBlank(startRow)) {
+				scan.setStartRow(startRow.getBytes());
+			}
+			if (StringUtils.isNotBlank(endRow)) {
+				scan.setStopRow(endRow.getBytes());
+			}
+			r = (List<Result>) hBaseTemplate.find(t.getTableName(), scan,
+					new RowMapper<Result>() {
+						@Override
+						public Result mapRow(Result result, int rowNum)
+								throws Exception {
+							return result;
 						}
 					});
 		}

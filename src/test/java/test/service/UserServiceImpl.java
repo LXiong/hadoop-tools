@@ -22,8 +22,8 @@ public class UserServiceImpl extends HbaseRepositoryImpl implements UserService 
 		return r;
 	}
 
-	public List<TestUser> findTByAll(final TestUser t, final Integer start,
-			final Integer end) {
+	public List<TestUser> findTByAll(final TestUser t, final String start,
+			final String end) {
 		List<TestUser> r = null;
 		List<Result> rs = super.findAll(t, start, end);
 		if (rs != null && rs.size() > 0) {
